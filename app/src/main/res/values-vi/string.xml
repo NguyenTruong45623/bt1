@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">bt1</string>
+    <string name="email">Email:</string>
+    <string name="password">mat khau:</string>
+    <string name="button">nhap</string>
+    <string name="login">dang nhap</string>
+    <string name="languages_english">Tieng Viet</string>
+    <string name="Login">dang nhap</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="nhap_email">Nhap Email:</string>
+    <string name="enter_your_email">Nhap email cua ban</string>
+    <string name="submit">Nộp</string>
+    <string name="enter_your_name">đi vào</string>
+    <string name="enter_your_PW">Nhap mat khau cua ban </string>
+</resources>

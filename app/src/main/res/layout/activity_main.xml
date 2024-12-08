@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Login"
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="141dp"
+        tools:ignore="MissingConstraints" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="141dp"
+            tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="141dp"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/btnEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="125dp"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="240dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textViewPW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            tools:layout_editor_absoluteX="33dp"
+            tools:layout_editor_absoluteY="141dp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btnPW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button"
+            tools:layout_editor_absoluteX="306dp"
+            tools:layout_editor_absoluteY="228dp"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="205dp"
+        android:layout_height="57dp"
+        android:text="@string/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="416dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnLG1"
+        android:layout_width="202dp"
+        android:layout_height="58dp"
+        android:text="@string/languages_english"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="559dp"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view_email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view_PW"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_Home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" />
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">bt1</string>
+    <string name="email">Email:</string>
+    <string name="password">PassWord:</string>
+    <string name="button">Button</string>
+    <string name="login">Login</string>
+    <string name="languages_english">Languages English</string>
+    <string name="Login">Login</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="nhap_email">Nhap Email:</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="submit">Submit</string>
+    <string name="enter_your_name">Enter</string>
+    <string name="enter_your_PW">Enter your PassWord</string>
+    <string name="tiengviet">tiengviet</string>
+</resources>
