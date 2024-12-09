@@ -6,16 +6,16 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.example.bt1.interfaces.OnDataEmail
+import com.example.bt1.interfaces.IEmailSender
 
 
-class EnterEmailFragment : Fragment(R.layout.fragment_enter_email),OnDataEmail {
+class EmailInputFragment : Fragment(R.layout.fragment_enter_email),IEmailSender {
 
-    private lateinit var dataEmail: OnDataEmail
+    private lateinit var emailSender: IEmailSender
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        dataEmail = context as? OnDataEmail ?: throw ClassCastException("$context must implement OnDataPass")
+        emailSender = context as? IEmailSender ?: throw ClassCastException("$context must implement OnDataPass")
 
     }
 
@@ -34,11 +34,11 @@ class EnterEmailFragment : Fragment(R.layout.fragment_enter_email),OnDataEmail {
     }
 
     private fun sendDataToActivity(data : String) {
-        dataEmail.onDataEmail(data)
+        emailSender.sendEmailToActivity(data)
     }
 
-    override fun onDataEmail(data: String) {
-
+    override fun sendEmailToActivity(data: String) {
+        TODO("Not yet implemented")
     }
 
 }

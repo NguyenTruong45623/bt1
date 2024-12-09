@@ -17,14 +17,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
-import com.example.bt1.interfaces.OnDataEmail
-import com.example.bt1.interfaces.OnDataPassWord
+import com.example.bt1.interfaces.IEmailSender
+import com.example.bt1.interfaces.IPassWordSender
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.util.Locale
 
-class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
+class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
     private lateinit var btnEmail: Button
     private lateinit var btnPW : Button
     private lateinit var passWord : TextView
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
         btnEmail.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace(android.R.id.content, EnterEmailFragment())
+                replace(android.R.id.content, EmailInputFragment())
                 addToBackStack(null)
             }
         }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
         btnPW.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace(android.R.id.content, EnterPassWordFragment())
+                replace(android.R.id.content, PassWordInputFragment())
                 addToBackStack(null)
             }
         }
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
 
     }
 
-    override fun onDataEmail(data: String) {
+    override fun sendEmailToActivity(data: String) {
         Toast.makeText(this, "du lieu da luu $data", Toast.LENGTH_SHORT).show()
 
         if(data != "") {
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
         }
     }
 
-    override fun onDataPassWord(data: String) {
+    override fun sendPasswordToActivity(data: String) {
         Toast.makeText(this, "du lieu da luu $data", Toast.LENGTH_SHORT).show()
         if(data != "") {
             passWord.text = data

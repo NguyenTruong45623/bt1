@@ -6,17 +6,16 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.example.bt1.interfaces.OnDataEmail
-import com.example.bt1.interfaces.OnDataPassWord
+import com.example.bt1.interfaces.IPassWordSender
 
 
-class EnterPassWordFragment : Fragment(R.layout.fragment_enter_pass_word), OnDataPassWord {
+class PassWordInputFragment : Fragment(R.layout.fragment_enter_pass_word), IPassWordSender {
 
-    private lateinit var dataPassWord: OnDataPassWord
+    private lateinit var passWordSender: IPassWordSender
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        dataPassWord = context as? OnDataPassWord ?: throw ClassCastException("$context must implement OnDataPass")
+        passWordSender = context as? IPassWordSender ?: throw ClassCastException("$context must implement OnDataPass")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,10 +33,12 @@ class EnterPassWordFragment : Fragment(R.layout.fragment_enter_pass_word), OnDat
     }
 
     private fun sendDataToActivity(data : String) {
-        dataPassWord.onDataPassWord(data)
+        passWordSender.sendPasswordToActivity(data)
     }
 
-    override fun onDataPassWord(data: String) {
+    override fun sendPasswordToActivity(data: String) {
         TODO("Not yet implemented")
     }
+
+
 }
