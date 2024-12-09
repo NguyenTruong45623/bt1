@@ -6,18 +6,16 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.example.bt1.interfaces.OnDataEmail
 
 
-class EnterEmail : Fragment(R.layout.fragment_enter_email) {
-    interface OnDataPass {
-        fun onDataEmail(data: String)
-    }
+class EnterEmailFragment : Fragment(R.layout.fragment_enter_email),OnDataEmail {
 
-    private lateinit var dataPasser: OnDataPass
+    private lateinit var dataEmail: OnDataEmail
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        dataPasser = context as? OnDataPass ?: throw ClassCastException("$context must implement OnDataPass")
+        dataEmail = context as? OnDataEmail ?: throw ClassCastException("$context must implement OnDataPass")
 
     }
 
@@ -26,7 +24,7 @@ class EnterEmail : Fragment(R.layout.fragment_enter_email) {
 
         val button: Button = view.findViewById(R.id.btnSubmit)
         button.setOnClickListener {
-            val data = view.findViewById<EditText>(R.id.etInput)?.text.toString()
+            val data = view.findViewById<EditText>(R.id.edtInputEmail)?.text.toString()
             sendDataToActivity(data)
 
             parentFragmentManager.beginTransaction()
@@ -35,7 +33,12 @@ class EnterEmail : Fragment(R.layout.fragment_enter_email) {
         }
     }
 
-    fun sendDataToActivity(data : String) {
-        dataPasser.onDataEmail(data)
+    private fun sendDataToActivity(data : String) {
+        dataEmail.onDataEmail(data)
     }
+
+    override fun onDataEmail(data: String) {
+
+    }
+
 }

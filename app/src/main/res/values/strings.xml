@@ -14,4 +14,5 @@
     <string name="enter_your_name">Enter</string>
     <string name="enter_your_PW">Enter your PassWord</string>
     <string name="tiengviet">tiengviet</string>
+    <string name="hello_world">Hello World</string>
 </resources>

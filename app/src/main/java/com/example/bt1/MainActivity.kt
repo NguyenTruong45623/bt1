@@ -1,8 +1,9 @@
 package com.example.bt1
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
@@ -11,25 +12,25 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.bt1.interfaces.OnDataEmail
+import com.example.bt1.interfaces.OnDataPassWord
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.util.Locale
 
-class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.OnDataPass {
+class MainActivity : AppCompatActivity(), OnDataEmail, OnDataPassWord {
     private lateinit var btnEmail: Button
     private lateinit var btnPW : Button
     private lateinit var passWord : TextView
     private lateinit var email : TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,13 +46,13 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
 
         btnEmail = findViewById(R.id.btnEmail)
         btnPW = findViewById(R.id.btnPW)
-        email = findViewById(R.id.textViewEmail)
-        passWord = findViewById(R.id.textViewPW)
+        email = findViewById(R.id.tvEmail)
+        passWord = findViewById(R.id.tvPW)
 
         btnEmail.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace(android.R.id.content, EnterEmail())
+                replace(android.R.id.content, EnterEmailFragment())
                 addToBackStack(null)
             }
         }
@@ -59,12 +60,12 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
         btnPW.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace(android.R.id.content, EnterPassWord())
+                replace(android.R.id.content, EnterPassWordFragment())
                 addToBackStack(null)
             }
         }
 
-        findViewById<Button>(R.id.btnLG1).setOnClickListener {
+        findViewById<Button>(R.id.btnLG).setOnClickListener {
             val newLanguage = if (currentLanguage == "en") "vi" else "en"
 
             with(sharedPreferences.edit()) {
@@ -83,15 +84,12 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
 
 //        login luu vao file
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
-            ClickRequestPersssion()
+            clickRequestPersssion()
             val getContent = "email: ${email.text}\npassword: ${passWord.text}\n"
-            WriteToFile("test.txt", getContent)
+            writeToFile("test.txt", getContent)
 
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace(android.R.id.content, Home())
-                addToBackStack(null)
-            }
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -121,7 +119,7 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
         }
     }
 
-    override fun onDataPW(data: String) {
+    override fun onDataPassWord(data: String) {
         Toast.makeText(this, "du lieu da luu $data", Toast.LENGTH_SHORT).show()
         if(data != "") {
             passWord.text = data
@@ -137,7 +135,7 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-    private fun ClickRequestPersssion() {
+    private fun clickRequestPersssion() {
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
             && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Đã cấp quyền", Toast.LENGTH_SHORT).show()
@@ -147,7 +145,7 @@ class MainActivity : AppCompatActivity(), EnterEmail.OnDataPass, EnterPassWord.O
         }
     }
 
-    fun WriteToFile(fileName: String, content: String)  {
+    private fun writeToFile(fileName: String, content: String)  {
         try {
             val publicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
 
