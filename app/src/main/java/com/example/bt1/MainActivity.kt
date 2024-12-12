@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Environment
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -19,9 +18,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import com.example.bt1.interfaces.IEmailSender
 import com.example.bt1.interfaces.IPassWordSender
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
 import java.util.Locale
 
 class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
@@ -34,10 +30,12 @@ class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         var currentLanguage = sharedPreferences.getString("language", "en") ?: "en"
-        setLocale(currentLanguage)
+
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -73,21 +71,15 @@ class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
                 apply()
             }
             currentLanguage = newLanguage
-            setLocale(newLanguage)
 
-            recreate()
+            recreate() // Tạo lại Activity để áp dụng ngôn ngữ mới
         }
 
         if (savedInstanceState != null) {
             super.onRestoreInstanceState(savedInstanceState)
         }
 
-//        login luu vao file
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
-            clickRequestPersssion()
-            val getContent = "email: ${email.text}\npassword: ${passWord.text}\n"
-            writeToFile("test.txt", getContent)
-
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         }
@@ -97,23 +89,18 @@ class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
         email.text = savedInstanceState.getString("email")
         passWord.text = savedInstanceState.getString("password")
         super.onRestoreInstanceState(savedInstanceState)
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-
         outState.run {
             putString("email", email.text.toString())
             putString("password", passWord.text.toString())
         }
-        // Call superclass to save any view hierarchy.
         super.onSaveInstanceState(outState)
-
     }
 
     override fun sendEmailToActivity(data: String) {
         Toast.makeText(this, "du lieu da luu $data", Toast.LENGTH_SHORT).show()
-
         if(data != "") {
             email.text = data
         }
@@ -126,41 +113,16 @@ class MainActivity : AppCompatActivity(), IPassWordSender, IEmailSender {
         }
     }
 
-    private fun setLocale(languageCode: String) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
+    override fun attachBaseContext(newBase: Context) {
+        val sharedPreferences = newBase.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val language = sharedPreferences.getString("language", "en") ?: "en"
 
-        val config = Configuration(resources.configuration)
+        val locale = Locale(language)
+        val config = Configuration(newBase.resources.configuration)
         config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-    }
 
-    private fun clickRequestPersssion() {
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-            && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Đã cấp quyền", Toast.LENGTH_SHORT).show()
-        } else {
-            val permission = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, permission, 1)
-        }
-    }
-
-    private fun writeToFile(fileName: String, content: String)  {
-        try {
-            val publicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-
-            val file = File(publicDir, fileName)
-            val fileWrite = FileWriter(file, true)
-            fileWrite.write(content)
-
-            fileWrite.close()
-
-            Toast.makeText(this, "Ghi file thành công", Toast.LENGTH_SHORT).show()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Toast.makeText(this, "Ghi file thất bại", Toast.LENGTH_SHORT).show()
-        }
-
+        val context = newBase.createConfigurationContext(config)
+        super.attachBaseContext(context)
     }
 
 }
